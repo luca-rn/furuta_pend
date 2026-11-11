@@ -1,0 +1,36 @@
+<mujoco model="furuta_pend">
+  <compiler angle="radian" meshdir="meshes"/>
+  <option timestep="0.001" integrator="implicitfast"/>
+  <asset>
+    <mesh name="motor_mount" file="motor_mount.stl" scale="0.001 0.001 0.001"/>
+    <mesh name="enc_mount" file="encoder_and_pole_mount.stl" scale="0.001 0.001 0.001"/>
+    <mesh name="pend_main"      file="arm_and_pend_main.stl"   scale="0.001 0.001 0.001"/>
+    <mesh name="screw_attach"   file="screw_attachment.stl"    scale="0.001 0.001 0.001"/>
+    <mesh name="magnet_attach"  file="magnet_attachment.stl"   scale="0.001 0.001 0.001"/>
+  </asset>
+  <worldbody>
+    <light pos="0 0 1"/>
+    <body name="base">
+      <geom type="mesh" mesh="motor_mount"/>
+      <body name="arm" pos="0.0350 0.0350 0.0965">
+        <joint name="arm" type="hinge" axis="0 0 1" armature="0.0000068"/>
+        <geom type="mesh" mesh="enc_mount" pos="-0.0350 -0.0350 -0.0965"
+            mass="0.022" contype="0" conaffinity="0" rgba=".2 .5 .8 1"/>
+        <body name="pend" pos="0.000038 -0.058069 0.013941">
+            <joint name="pend" type="hinge" axis="0 1 0" damping="0.000011" frictionloss="0.000134"/>
+            <geom type="mesh" mesh="pend_main" pos="-0.035030 0.023069 -0.110441"
+                mass="0.003" contype="0" conaffinity="0" rgba=".8 .2 .2 1"/>
+            <geom type="mesh" mesh="screw_attach"  pos="-0.035030 0.023069 -0.110441"
+                mass="0.0008" contype="0" conaffinity="0" rgba=".8 .2 .2 1"/>
+            <geom type="mesh" mesh="magnet_attach" pos="-0.035030 0.023069 -0.110441"
+                mass="0.0005" contype="0" conaffinity="0" rgba=".8 .2 .2 1"/>
+            <geom type="sphere" size="0.005" pos="0 -0.0059 -0.0678"
+                mass="0.008" contype="0" conaffinity="0" rgba=".7 .7 .7 1"/>
+        </body>
+      </body>
+    </body>
+  </worldbody>
+  <actuator>
+    <position name="arm_pos" joint="arm" kp="5" kv="0.05"/>
+  </actuator>
+</mujoco>
